@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     }
 
     const { object } = await generateObject({
-      model: google('gemini-1.5-flash'),
+      model: google('gemini-flash-latest'),
       system: `Você é o PageForge AI, um Diretor de Arte Sênior e Copywriter Mestre. 
       Sua missão é gerar Landing Pages cinematográficas e de altíssima conversão.
       Gere EXATAMENTE um objeto JSON seguindo o schema. 
@@ -83,3 +83,4 @@ export async function POST(req: Request) {
     return Response.json({ error: (error as Error).message || "Falha na geração" }, { status: 500 });
   }
 }
+
