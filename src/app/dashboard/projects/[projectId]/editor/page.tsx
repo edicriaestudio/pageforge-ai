@@ -95,9 +95,9 @@ export default function EditorPage() {
       applyState(data);
       setPrompt("");
       setSuccess("Estrutura gerada com sucesso pela IA!");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message);
+      setError((err as Error).message);
     } finally {
       setIsGenerating(false);
     }
@@ -235,6 +235,7 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
 
 

@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   try {
     const { prompt, base64Image } = await req.json();
 
-    const messages: any[] = [];
+    import { CoreMessage } from "ai";`n    const messages: CoreMessage[] = [];
 
     if (base64Image) {
       // Quando temos uma imagem (Visão)
@@ -77,8 +77,9 @@ export async function POST(req: Request) {
     });
 
     return Response.json(object);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("AI Generation Error:", error);
     return Response.json({ error: error.message || "Falha na geração" }, { status: 500 });
   }
 }
+
