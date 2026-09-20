@@ -27,7 +27,7 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
   const loadItems = async () => {
     setLoading(true);
     try {
-      const data = await listLibraryItems(type);
+      const res = await listLibraryItems(type); if (res.error) throw new Error(res.error); const data = res.data;
       setItems(data as LibraryItem[]);
     } catch (err) {
       console.error(err);
@@ -58,7 +58,7 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
     setIsSubmitting(true);
     setError(null);
     try {
-      await createLibraryItem(type, name, category, parsedJson);
+      const res = await createLibraryItem(type, name, category, parsedJson); if (res.error) throw new Error(res.error);
       setIsModalOpen(false);
       setName("");
       setCategory("");
@@ -74,7 +74,7 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
   const handleDelete = async (id: string) => {
     if (!confirm("Tem certeza que deseja deletar este item?")) return;
     try {
-      await deleteLibraryItem(id);
+      const res = await deleteLibraryItem(id); if (res.error) throw new Error(res.error);
       loadItems();
     } catch (err) {
       console.error(err);
@@ -180,3 +180,4 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
     </div>
   );
 }
+

@@ -9,8 +9,8 @@ export async function listLibraryItems(type: 'template' | 'asset') {
     .eq("type", type)
     .order("created_at", { ascending: false });
     
-  if (error) throw new Error(error.message);
-  return data;
+  if (error) return { error: error.message };
+  return { data };
 }
 
 export async function createLibraryItem(type: 'template' | 'asset', name: string, category: string, spec_json: Record<string, unknown>) {
@@ -21,14 +21,13 @@ export async function createLibraryItem(type: 'template' | 'asset', name: string
     .select()
     .single();
 
-  if (error) throw new Error(error.message);
-  return data;
+  if (error) return { error: error.message };
+  return { data };
 }
 
 export async function deleteLibraryItem(id: string) {
   const supabase = createClient();
   const { error } = await supabase.from("library_items").delete().eq("id", id);
-  if (error) throw new Error(error.message);
-  return true;
+  if (error) return { error: error.message };
+  return { success: true };
 }
-
