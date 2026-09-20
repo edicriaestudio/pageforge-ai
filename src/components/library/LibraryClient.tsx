@@ -9,7 +9,7 @@ type LibraryItem = {
   type: 'template' | 'asset';
   name: string;
   category: string;
-  spec_json: Record<string, unknown>;
+  spec_json: any; // Using any here to safely read nested properties like hero.image without complex type casting
 };
 
 export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
@@ -38,6 +38,7 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
 
   useEffect(() => {
     loadItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type]);
 
   const handleSave = async () => {
@@ -109,7 +110,17 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {items.map(item => (
             <div key={item.id} className="p-6 bg-zinc-900 border border-zinc-800 rounded-2xl flex flex-col gap-4 relative group">
-              <div className="w-full h-32 bg-zinc-800/50 rounded-lg overflow-hidden mb-2">`n                  {item.spec_json?.hero?.image ? (`n                    <img src={item.spec_json.hero.image} alt="Thumbnail" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />`n                  ) : (`n                    <div className="w-full h-full flex items-center justify-center text-zinc-700"><Icon size={24}/></div>`n                  )}`n                </div>`n                <div className="flex justify-between items-start">
+              <div className="w-full h-32 bg-zinc-800/50 rounded-lg overflow-hidden mb-2">
+                {item.spec_json?.hero?.image ? (
+                  <img src={item.spec_json.hero.image} alt="Thumbnail" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-zinc-700">
+                    <Icon size={24}/>
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex justify-between items-start">
                 <div>
                   <h3 className="font-bold text-white text-lg">{item.name}</h3>
                   <span className="text-xs font-mono text-emerald-500 mt-1 block">{item.category || 'Geral'}</span>
@@ -169,5 +180,3 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
     </div>
   );
 }
-
-
