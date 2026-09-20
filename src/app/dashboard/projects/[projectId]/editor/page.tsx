@@ -121,7 +121,7 @@ export default function EditorPage() {
         <div className="p-4 border-b border-zinc-800 flex flex-col gap-4 bg-zinc-950 shrink-0">
           <div className="flex justify-between items-center">
             <h2 className="font-bold text-lg text-white">Editor Visual</h2>
-            <button onClick={handleSaveToDatabase} disabled={isSaving} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg font-bold text-sm hover:bg-emerald-500 disabled:opacity-50 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <button onClick={handleSaveToDatabase} disabled={isSaving} className="flex items-center gap-2 px-4 py-2 bg-lime-600 text-white rounded-lg font-bold text-sm hover:bg-lime-500 disabled:opacity-50 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.3)]">
               {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
               Salvar Deploy
             </button>
@@ -129,10 +129,10 @@ export default function EditorPage() {
 
           <div className="flex justify-between items-center">
             <div className="flex bg-zinc-900 rounded-lg p-1 gap-1 border border-zinc-800">
-              <button onClick={() => setActiveTab("chat")} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${activeTab === "chat" ? "bg-zinc-800 text-emerald-400 shadow-sm" : "text-zinc-500 hover:text-zinc-300"}`}>
+              <button onClick={() => setActiveTab("chat")} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${activeTab === "chat" ? "bg-zinc-800 text-lime-400 shadow-sm" : "text-zinc-500 hover:text-zinc-300"}`}>
                 <MessageSquare size={16} /> Assistente IA
               </button>
-              <button onClick={() => setActiveTab("json")} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${activeTab === "json" ? "bg-zinc-800 text-emerald-400 shadow-sm" : "text-zinc-500 hover:text-zinc-300"}`}>
+              <button onClick={() => setActiveTab("json")} className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${activeTab === "json" ? "bg-zinc-800 text-lime-400 shadow-sm" : "text-zinc-500 hover:text-zinc-300"}`}>
                 <Code2 size={16} /> JSON Raw
               </button>
             </div>
@@ -145,17 +145,17 @@ export default function EditorPage() {
         </div>
         
         {error && <div className="p-3 bg-red-500/10 text-red-400 text-xs border-b border-red-500/20 font-mono shrink-0"><strong>AVISO:</strong> {error}</div>}
-        {success && <div className="p-3 bg-emerald-500/10 text-emerald-400 text-xs border-b border-emerald-500/20 font-mono shrink-0"><strong>SUCESSO:</strong> {success}</div>}
+        {success && <div className="p-3 bg-lime-500/10 text-lime-400 text-xs border-b border-lime-500/20 font-mono shrink-0"><strong>SUCESSO:</strong> {success}</div>}
 
         {activeTab === "json" && (
-          <textarea className="flex-1 w-full p-4 bg-zinc-950 font-mono text-[13px] text-emerald-400/80 resize-none focus:outline-none min-h-0" value={specString} onChange={handleJsonChange} spellCheck={false} />
+          <textarea className="flex-1 w-full p-4 bg-zinc-950 font-mono text-[13px] text-lime-400/80 resize-none focus:outline-none min-h-0" value={specString} onChange={handleJsonChange} spellCheck={false} />
         )}
 
         {activeTab === "chat" && (
           <div className="flex flex-col flex-1 min-h-0 bg-zinc-950">
             <div className="flex-1 p-6 overflow-y-auto">
               <div className="flex gap-4 mb-6">
-                <div className="w-8 h-8 rounded-full bg-emerald-600/20 text-emerald-500 flex items-center justify-center shrink-0 border border-emerald-500/30">
+                <div className="w-8 h-8 rounded-full bg-lime-600/20 text-lime-500 flex items-center justify-center shrink-0 border border-lime-500/30">
                   <Code2 size={16} />
                 </div>
                 <div className="flex-1">
@@ -165,7 +165,7 @@ export default function EditorPage() {
                   </p>
                   <div className="flex flex-col gap-2">
                     {quickPrompts.map((qp, i) => (
-                      <button key={i} onClick={() => setPrompt(qp)} className="text-left p-2.5 bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/50 hover:border-emerald-500/30 rounded-lg text-xs text-zinc-400 hover:text-emerald-400 transition-colors">
+                      <button key={i} onClick={() => setPrompt(qp)} className="text-left p-2.5 bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/50 hover:border-lime-500/30 rounded-lg text-xs text-zinc-400 hover:text-lime-400 transition-colors">
                         {qp}
                       </button>
                     ))}
@@ -188,12 +188,12 @@ export default function EditorPage() {
                   onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleAIGeneration(); } }}
                   placeholder="Comande a forja..."
                   disabled={isGenerating}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 pr-12 text-sm text-white resize-none h-20 focus:outline-none focus:border-emerald-500 disabled:opacity-50 shadow-inner"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 pr-12 text-sm text-white resize-none h-20 focus:outline-none focus:border-lime-500 disabled:opacity-50 shadow-inner"
                 />
                 <button 
                   onClick={handleAIGeneration}
                   disabled={isGenerating || !prompt.trim()}
-                  className="absolute right-2 bottom-2 p-2 bg-emerald-600 text-white rounded-lg disabled:opacity-50 hover:bg-emerald-500 transition-all"
+                  className="absolute right-2 bottom-2 p-2 bg-lime-600 text-white rounded-lg disabled:opacity-50 hover:bg-lime-500 transition-all"
                 >
                   {isGenerating ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
                 </button>
@@ -224,4 +224,5 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
