@@ -1,7 +1,7 @@
 ﻿"use server";
 import { createClient } from "@/lib/db/server";
 
-export async function listLibraryItems(type: 'template' | 'asset') {
+export async function listLibraryItems(type: 'template' | 'asset' | 'reference' | 'prompt') {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("library_items")
@@ -13,7 +13,7 @@ export async function listLibraryItems(type: 'template' | 'asset') {
   return { data };
 }
 
-export async function createLibraryItem(type: 'template' | 'asset', name: string, category: string, spec_json: Record<string, unknown>) {
+export async function createLibraryItem(type: 'template' | 'asset' | 'reference' | 'prompt', name: string, category: string, spec_json: Record<string, unknown>) {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("library_items")
@@ -31,3 +31,4 @@ export async function deleteLibraryItem(id: string) {
   if (error) return { error: error.message };
   return { success: true };
 }
+
