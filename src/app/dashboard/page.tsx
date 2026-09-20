@@ -1,5 +1,6 @@
 ﻿import { listProjects } from "@/app/actions/projects";
 import { Plus, ArrowRight, Activity, Globe, HardDrive } from "lucide-react";
+import { NewProjectButton } from "@/components/dashboard/NewProjectModal";
 
 type Project = {
   id: string;
@@ -32,10 +33,7 @@ export default async function Dashboard() {
           <h1 className="text-4xl font-bold text-white tracking-tight">Dashboard.</h1>
         </div>
         
-        <button className="flex items-center gap-2 px-5 py-2.5 bg-white text-black font-bold text-sm rounded-lg hover:bg-zinc-200 transition-colors">
-          <Plus size={16} />
-          Novo Projeto
-        </button>
+        <NewProjectButton variant="primary" />
       </div>
 
       {offlineMode && (
@@ -124,13 +122,7 @@ export default async function Dashboard() {
             </a>
           ))}
 
-          {/* Create New Card */}
-          <button className="flex flex-col items-center justify-center gap-4 bg-transparent border-2 border-dashed border-zinc-800 rounded-2xl p-6 hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all group min-h-[240px]">
-            <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:scale-110 group-hover:bg-emerald-500 group-hover:border-emerald-400 transition-all">
-              <Plus className="text-zinc-500 group-hover:text-white transition-colors" size={24} />
-            </div>
-            <span className="font-bold text-zinc-400 group-hover:text-emerald-400 transition-colors">Criar Novo Projeto</span>
-          </button>
+          <NewProjectButton variant="card" />
 
         </div>
       </div>
@@ -138,5 +130,3 @@ export default async function Dashboard() {
     </div>
   );
 }
-
-
