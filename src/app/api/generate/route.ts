@@ -1,5 +1,5 @@
 ﻿import { google } from '@ai-sdk/google';
-import { generateObject } from 'ai';
+import { generateObject, CoreMessage } from 'ai';
 import { z } from 'zod';
 
 export const maxDuration = 60;
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   try {
     const { prompt, base64Image } = await req.json();
 
-    import { CoreMessage } from "ai";`n    const messages: CoreMessage[] = [];
+    const messages: CoreMessage[] = [];
 
     if (base64Image) {
       // Quando temos uma imagem (Visão)
@@ -79,7 +79,6 @@ export async function POST(req: Request) {
     return Response.json(object);
   } catch (error: unknown) {
     console.error("AI Generation Error:", error);
-    return Response.json({ error: error.message || "Falha na geração" }, { status: 500 });
+    return Response.json({ error: (error as Error).message || "Falha na geração" }, { status: 500 });
   }
 }
-
