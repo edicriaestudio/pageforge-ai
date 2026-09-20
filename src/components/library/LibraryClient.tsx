@@ -70,13 +70,19 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' | 'referenc
       return;
     }
     
-    let parsedJson = {};
+        let parsedJson = {};
     if (type === 'reference') {
         if (!imageBase64) {
             setError("Faça o upload da imagem de referência.");
             return;
         }
         parsedJson = { _image_base64: imageBase64 };
+    } else if (type === 'prompt') {
+        if (!jsonString) {
+            setError("O texto do prompt é obrigatório.");
+            return;
+        }
+        parsedJson = { promptText: jsonString };
     } else {
         if (!jsonString) {
             setError("JSON/Código é obrigatório.");
@@ -89,7 +95,6 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' | 'referenc
           return;
         }
     }
-
     setIsSubmitting(true);
     setError(null);
     try {
@@ -119,9 +124,13 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' | 'referenc
     }
   };
 
-  const handleCopy = (item: LibraryItem) => {
-      navigator.clipboard.writeText(JSON.stringify(item.spec_json, null, 2));
-      alert("Código copiado para a área de transferência!");
+    const handleCopy = (item: LibraryItem) => {
+      if (item.type === 'prompt' && item.spec_json?.promptText) {
+          navigator.clipboard.writeText(String(item.spec_json.promptText));
+      } else {
+          navigator.clipboard.writeText(JSON.stringify(item.spec_json, null, 2));
+      }
+      alert("Copiado para a área de transferência!");
   };
 
   const handleUseTemplate = async (item: LibraryItem) => {
@@ -261,7 +270,7 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' | 'referenc
                     value={jsonString} 
                     onChange={e => setJsonString(e.target.value)} 
                     className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-lime-400 font-mono text-xs h-64 focus:border-lime-500 outline-none resize-none" 
-                    placeholder="Cole o código JSON gerado..." 
+                    placeholder={type === "prompt" ? "Cole o seu prompt completo aqui..." : "Cole o código JSON gerado..."} 
                     spellCheck={false}
                   />
                 </div>
@@ -279,3 +288,4 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' | 'referenc
     </div>
   );
 }
+
