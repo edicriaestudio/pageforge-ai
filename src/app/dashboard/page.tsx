@@ -1,5 +1,5 @@
 ﻿import { listProjects } from "@/app/actions/projects";
-import { Plus, ArrowRight, Activity, Globe, HardDrive } from "lucide-react";
+import { ArrowRight, Activity, Globe, HardDrive } from "lucide-react";
 import { NewProjectButton } from "@/components/dashboard/NewProjectModal";
 
 type Project = {
@@ -130,3 +130,4 @@ export default async function Dashboard() {
     </div>
   );
 }
+

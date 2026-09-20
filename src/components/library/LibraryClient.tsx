@@ -9,7 +9,7 @@ type LibraryItem = {
   type: 'template' | 'asset';
   name: string;
   category: string;
-  spec_json: any; // Using any here to safely read nested properties like hero.image without complex type casting
+  spec_json: { hero?: { image?: string }; [key: string]: unknown };
 };
 
 export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
@@ -180,4 +180,5 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
     </div>
   );
 }
+
 
