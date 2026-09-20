@@ -78,18 +78,29 @@ export default function EditorPage() {
   const undo = () => { if (historyIndex > 0) { const prev = history[historyIndex - 1]; setHistoryIndex(historyIndex - 1); setSpec(prev); setSpecString(JSON.stringify(prev, null, 2)); setError(null); } };
   const redo = () => { if (historyIndex < history.length - 1) { const next = history[historyIndex + 1]; setHistoryIndex(historyIndex + 1); setSpec(next); setSpecString(JSON.stringify(next, null, 2)); setError(null); } };
 
-  const handleAIGeneration = async () => {
+    const handleAIGeneration = async () => {
     if (!prompt.trim()) return;
     setIsGenerating(true);
     setError(null);
-    setSuccess(null);
-    const fullIntent = `Este é o JSON atual do PageSpec v1:\n${JSON.stringify(spec)}\n\nAplicar a seguinte alteração/pedido: ${prompt}`;
     try {
-      const res = await fetch("/api/ai/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ intent: fullIntent }) });
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, base64Image: null })
+      });
+      
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Erro ao conectar com API de IA.");
-      if (data.spec) { pushToHistory(data.spec); setPrompt(""); }
-    } catch (err: unknown) { setError((err as Error).message); } finally { setIsGenerating(false); }
+      if (!res.ok) throw new Error(data.error || "Erro ao conectar com a IA");
+      
+      applyState(data);
+      setPrompt("");
+      setSuccess("Estrutura gerada com sucesso pela IA!");
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleSaveToDatabase = async () => {
@@ -224,5 +235,6 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
 
