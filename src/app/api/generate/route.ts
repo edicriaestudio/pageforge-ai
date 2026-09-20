@@ -1,5 +1,5 @@
 ﻿import { google } from '@ai-sdk/google';
-import { generateObject, CoreMessage } from 'ai';
+import { generateObject } from 'ai';
 import { z } from 'zod';
 
 export const maxDuration = 60;
@@ -8,7 +8,8 @@ export async function POST(req: Request) {
   try {
     const { prompt, base64Image } = await req.json();
 
-    const messages: CoreMessage[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const messages: any[] = [];
 
     if (base64Image) {
       // Quando temos uma imagem (Visão)
