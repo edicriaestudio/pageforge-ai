@@ -9,7 +9,7 @@ type LibraryItem = {
   type: 'template' | 'asset';
   name: string;
   category: string;
-  spec_json: any;
+  spec_json: Record<string, unknown>;
 };
 
 export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
@@ -49,7 +49,7 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
     let parsedJson;
     try {
       parsedJson = JSON.parse(jsonString);
-    } catch (e) {
+    } catch { // unused
       setError("JSON inválido. Verifique o código.");
       return;
     }
@@ -63,8 +63,8 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
       setCategory("");
       setJsonString("");
       loadItems();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError((err as Error).message);
     } finally {
       setIsSubmitting(false);
     }
@@ -169,3 +169,4 @@ export function LibraryClient({ type }: { type: 'template' | 'asset' }) {
     </div>
   );
 }
+
