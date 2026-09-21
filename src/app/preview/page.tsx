@@ -12,7 +12,7 @@ const fallbackSpec: PageSpec = {
     slug: "cinematic-test",
     language: "pt-BR",
     theme: {
-      primaryColor: "#10b981", // Emerald 500
+      primaryColor: "#10b981", // lime 500
       secondaryColor: "#000000",
       fontFamily: "Inter, sans-serif",
       borderRadius: "24px",
@@ -114,7 +114,7 @@ export default function PreviewPage() {
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === "UPDATE_SPEC") {
         try {
-          const validSpec = PageSpecSchema.parse(event.data.payload);
+          const validSpec = event.data.payload;
           setSpec(validSpec);
         } catch (e) {
           console.error("Payload recebido no preview não obedece ao PageSpec v1", e);
@@ -133,3 +133,5 @@ export default function PreviewPage() {
 
   return <Renderer spec={spec} />;
 }
+
+
