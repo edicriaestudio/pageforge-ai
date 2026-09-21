@@ -154,7 +154,7 @@ export default function EditorPage() {
     setSuccess(null);
     try {
       if (!process.env.NEXT_PUBLIC_SUPABASE_URL) throw new Error("Modo Offline: Banco Supabase pendente.");
-      await savePageVersion(spec.page.slug, spec);
+      await savePageVersion(spec?.page?.slug || "pagina-nova", spec);
       setSuccess("Blueprint salvo com sucesso na nuvem!");
     } catch (err: unknown) { setError((err as Error).message); } finally { setIsSaving(false); }
   };
@@ -280,6 +280,7 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
 
 
