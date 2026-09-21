@@ -12,10 +12,11 @@ export const SectionTypeSchema = z.enum([
   "testimonial",
   "faq",
   "cta",
+  "html",
 ]);
 
 export const SectionSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
   type: SectionTypeSchema,
   visible: z.boolean().default(true),
   props: z.record(z.string(), z.any()), // Permitir props genéricas para qualquer componente
@@ -43,4 +44,5 @@ export const PageSpecSchema = z.object({
 });
 
 export type PageSpec = z.infer<typeof PageSpecSchema>;
+
 
