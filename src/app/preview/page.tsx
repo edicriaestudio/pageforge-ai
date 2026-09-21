@@ -110,28 +110,40 @@ const fallbackSpec: PageSpec = {
 export default function PreviewPage() {
   const [spec, setSpec] = useState<PageSpec>(fallbackSpec);
 
-  useEffect(() => {
+    useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.data?.type === "UPDATE_SPEC") {
         try {
           const validSpec = event.data.payload;
           setSpec(validSpec);
         } catch (e) {
-          console.error("Payload recebido no preview não obedece ao PageSpec v1", e);
+          console.error(e);
         }
       }
     };
 
     window.addEventListener("message", handleMessage);
     
+    // Fallback de sincronização
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === "sync_spec" && e.newValue) {
+        setSpec(JSON.parse(e.newValue));
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+
     if (window.parent !== window) {
       window.parent.postMessage({ type: "PREVIEW_READY" }, "*");
     }
 
-    return () => window.removeEventListener("message", handleMessage);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+      window.removeEventListener("storage", handleStorage);
+    };
   }, []);
 
   return <Renderer spec={spec} />;
 }
+
 
 

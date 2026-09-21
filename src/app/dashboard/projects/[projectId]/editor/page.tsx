@@ -126,7 +126,7 @@ export default function EditorPage() {
           },
           sections: [
             { id: "nav-1", type: "navbar", visible: true, props: { logoText: data.name || "PAGEFORGE.", links: [ { label: "Método", url: "#" }, { label: "Vantagens", url: "#" }, { label: "Planos", url: "#" } ], ctaText: "INICIAR" } },
-            { id: "hero-1", type: "hero", visible: true, props: { headlinePrefix: "APRESENTANDO", headlineMain: data.hero?.headline || "Headline", subheadline: data.hero?.subheadline || "Sub", ctaText: data.hero?.cta || "Começar", image: data.hero?.image || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80" } },
+            { id: "hero-1", type: "hero", visible: true, props: { headlinePrefix: "APRESENTANDO", headlineMain: data.hero?.headline || "Headline", subheadline: data.hero?.subheadline || "Sub", ctaText: data.hero?.cta || "Começar", backgroundImageUrl: data.hero?.image || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80" } },
             { id: "phil-1", type: "philosophy", visible: true, props: { commonFocus: (data.philosophy?.statement1 || "") + " " + (data.philosophy?.statement2 || ""), ourDifferential: (data.philosophy?.statement3 || "") + " " + (data.philosophy?.statement4 || "") } },
             { id: "features-1", type: "features", visible: true, props: { sectionTitle: "Diferenciais", items: [ { id: "f1", title: data.features?.[0]?.title || "F1", description: data.features?.[0]?.description || "D1", type: "diagnostic" }, { id: "f2", title: data.features?.[1]?.title || "F2", description: data.features?.[1]?.description || "D2", type: "telemetry" }, { id: "f3", title: data.features?.[2]?.title || "F3", description: data.features?.[2]?.description || "D3", type: "scheduler" } ] } },
             ...(data.protocol ? [{ id: "proto-1", type: "protocol", visible: true, props: { sectionTitle: "O Processo", steps: [ { id: "p1", number: "01", title: data.protocol[0]?.title || "1", description: data.protocol[0]?.description || "d1" }, { id: "p2", number: "02", title: data.protocol[1]?.title || "2", description: data.protocol[1]?.description || "d2" }, { id: "p3", number: "03", title: data.protocol[2]?.title || "3", description: data.protocol[2]?.description || "d3" } ] } }] : []),
@@ -280,6 +280,7 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
 
 
