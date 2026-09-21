@@ -99,10 +99,32 @@ export default function EditorPage() {
         body: JSON.stringify({ prompt, base64Image: null })
       });
       
-      const data = await res.json();
+            const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao conectar com a IA");
       
-      applyState(data);
+      const mappedSpec = {
+        schemaVersion: 1,
+        page: {
+          ...spec.page,
+          title: data.name || spec.page.title,
+          theme: {
+            ...spec.page.theme,
+            primaryColor: data.preset === "Organic Research" ? "#65a30d" : data.preset === "Deep Space Tech" ? "#3b82f6" : "#000000"
+          },
+          sections: [
+            { id: "nav-1", type: "navbar", visible: true, props: { logoText: data.name || "PAGEFORGE.", links: [ { label: "Método", url: "#" }, { label: "Vantagens", url: "#" }, { label: "Planos", url: "#" } ], ctaText: "INICIAR" } },
+            { id: "hero-1", type: "hero", visible: true, props: { headlinePrefix: "APRESENTANDO", headlineMain: data.hero?.headline || "Headline", subheadline: data.hero?.subheadline || "Sub", ctaText: data.hero?.cta || "Começar", image: data.hero?.image || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80" } },
+            { id: "phil-1", type: "philosophy", visible: true, props: { commonFocus: (data.philosophy?.statement1 || "") + " " + (data.philosophy?.statement2 || ""), ourDifferential: (data.philosophy?.statement3 || "") + " " + (data.philosophy?.statement4 || "") } },
+            { id: "features-1", type: "features", visible: true, props: { sectionTitle: "Diferenciais", items: [ { id: "f1", title: data.features?.[0]?.title || "F1", description: data.features?.[0]?.description || "D1", type: "diagnostic" }, { id: "f2", title: data.features?.[1]?.title || "F2", description: data.features?.[1]?.description || "D2", type: "telemetry" }, { id: "f3", title: data.features?.[2]?.title || "F3", description: data.features?.[2]?.description || "D3", type: "scheduler" } ] } },
+            ...(data.protocol ? [{ id: "proto-1", type: "protocol", visible: true, props: { sectionTitle: "O Processo", steps: [ { id: "p1", number: "01", title: data.protocol[0]?.title || "1", description: data.protocol[0]?.description || "d1" }, { id: "p2", number: "02", title: data.protocol[1]?.title || "2", description: data.protocol[1]?.description || "d2" }, { id: "p3", number: "03", title: data.protocol[2]?.title || "3", description: data.protocol[2]?.description || "d3" } ] } }] : []),
+            ...(data.membership ? [{ id: "mem-1", type: "membership", visible: true, props: { sectionTitle: "Planos", tiers: [ { id: "t1", name: data.membership.tier1_name, price: data.membership.tier1_price, period: "", features: data.membership.tier1_benefits || [], isPopular: false, ctaText: "Assinar" }, { id: "t2", name: data.membership.tier2_name, price: data.membership.tier2_price, period: "", features: data.membership.tier2_benefits || [], isPopular: true, ctaText: "Assinar" }, { id: "t3", name: data.membership.tier3_name, price: data.membership.tier3_price, period: "", features: data.membership.tier3_benefits || [], isPopular: false, ctaText: "Assinar" } ] } }] : []),
+            { id: "foot-1", type: "footer", visible: true, props: { copyrightText: data.footer?.text || "© 2026", links: [] } }
+          ]
+        }
+      };
+
+      // @ts-ignore - Bypass strict checks for mapped dynamic spec
+      applyState(mappedSpec);
       setPrompt("");
       setSuccess("Estrutura gerada com sucesso pela IA!");
     } catch (err: unknown) {
@@ -245,6 +267,7 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
 
 
