@@ -75,14 +75,23 @@ export default function EditorPage() {
     setHistoryIndex(newHistory.length - 1);
   };
 
-    const applyState = (newState: PageSpec) => {
-    setSpec(newState);
-    setSpecString(JSON.stringify(newState, null, 2));
-    setHistory(prev => {
-      const newHistory = prev.slice(0, historyIndex + 1);
-      return [...newHistory, newState];
-    });
-    setHistoryIndex(prev => prev + 1);
+      const applyState = (newState: any) => {
+    try {
+      if (!newState || !newState.page || !newState.page.slug) {
+        throw new Error("O objeto não contém a propriedade 'page.slug' obrigatória.");
+      }
+      
+      setSpec(newState);
+      setSpecString(JSON.stringify(newState, null, 2));
+      setHistory(prev => {
+        const newHistory = prev.slice(0, historyIndex + 1);
+        return [...newHistory, newState];
+      });
+      setHistoryIndex(prev => prev + 1);
+    } catch (e) {
+      console.error("Tentativa de aplicar estado inválido:", e);
+      setError("Erro de formato: O template carregado não é válido para a página inteira.");
+    }
   };
 
   const undo = () => { if (historyIndex > 0) { const prev = history[historyIndex - 1]; setHistoryIndex(historyIndex - 1); setSpec(prev); setSpecString(JSON.stringify(prev, null, 2)); setError(null); } };
@@ -267,6 +276,7 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
 
 
