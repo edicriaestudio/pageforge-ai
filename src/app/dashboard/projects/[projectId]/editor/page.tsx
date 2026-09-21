@@ -47,10 +47,13 @@ export default function EditorPage() {
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  useEffect(() => {
+    useEffect(() => {
     if (iframeRef.current?.contentWindow) {
       iframeRef.current.contentWindow.postMessage({ type: "UPDATE_SPEC", payload: spec }, "*");
     }
+    try {
+      localStorage.setItem("sync_spec", JSON.stringify(spec));
+    } catch(e) {}
   }, [spec, deviceMode, isSidebarCollapsed]);
 
   const handleJsonChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -280,6 +283,7 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
 
 
