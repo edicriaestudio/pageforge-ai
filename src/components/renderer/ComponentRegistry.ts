@@ -5,6 +5,7 @@ import { Philosophy } from "../ui/Philosophy";
 import { Protocol } from "../ui/Protocol";
 import { Membership } from "../ui/Membership";
 import { Footer } from "../ui/Footer";
+import { HtmlBlock } from "../ui/HtmlBlock";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const ComponentRegistry: Record<string, React.FC<any>> = {
@@ -15,4 +16,6 @@ export const ComponentRegistry: Record<string, React.FC<any>> = {
   protocol: Protocol,
   membership: Membership,
   footer: Footer,
+  html: HtmlBlock,
 };
+
