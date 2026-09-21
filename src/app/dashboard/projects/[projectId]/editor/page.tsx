@@ -111,14 +111,18 @@ export default function EditorPage() {
             const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Erro ao conectar com a IA");
       
-      const mappedSpec = {
+            const mappedSpec = {
         schemaVersion: 1,
         page: {
-          ...spec.page,
-          title: data.name || spec.page.title,
+          id: spec?.page?.id || "uuid-auto-gen-123",
+          slug: spec?.page?.slug || "pagina-gerada",
+          language: spec?.page?.language || "pt-BR",
+          title: data.name || spec?.page?.title || "Projeto Gerado",
           theme: {
-            ...spec.page.theme,
-            primaryColor: data.preset === "Organic Research" ? "#65a30d" : data.preset === "Deep Space Tech" ? "#3b82f6" : "#000000"
+            primaryColor: data.preset === "Organic Research" ? "#65a30d" : data.preset === "Deep Space Tech" ? "#3b82f6" : "#10b981",
+            secondaryColor: spec?.page?.theme?.secondaryColor || "#000000",
+            fontFamily: spec?.page?.theme?.fontFamily || "Inter, sans-serif",
+            borderRadius: spec?.page?.theme?.borderRadius || "24px"
           },
           sections: [
             { id: "nav-1", type: "navbar", visible: true, props: { logoText: data.name || "PAGEFORGE.", links: [ { label: "Método", url: "#" }, { label: "Vantagens", url: "#" }, { label: "Planos", url: "#" } ], ctaText: "INICIAR" } },
@@ -276,6 +280,7 @@ export default function EditorPage() {
     </div>
   );
 }
+
 
 
 
